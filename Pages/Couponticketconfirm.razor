@@ -1,0 +1,58 @@
+﻿@page "/coupon-ticket-confirm"
+
+<header>
+    <div class="header-items">
+        <a href="couponticket">
+            <img src="images/icon1.png" />
+        </a>
+        <p>回数券購入</p>
+        <div class="nav-menu">
+            <input type="checkbox" id="switch">
+            <label for="switch">
+                <p><span></span></p>
+            </label>
+            <nav class="navwrap">
+                <div class="navwrap-inner">
+                    <div class="menu-bar-items">
+                        <p>No.0</p>
+                        <ui>
+                            <li><a href="">マイページ</a></li>
+                            <li><a href="information">おしらせ</a></li>
+                            <li><a href="settlementinputkey">館内利用精算</a></li>
+                            <li><a href="couponticket">回数券購入</a></li>
+                            <li><a href="congestion">混雑状況表示</a></li>
+                            <li><a href="accountsettings">アカウント</a></li>
+                            <li><a href="">利用規約</a></li>
+                            <li><a href="">プライバシーポリシー</a></li>
+                        </ui>
+                    </div>
+                    <div class="nav-logout-btn">
+                        <a href="">ログアウト</a>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </div>
+</header>
+<div class="container">
+    <div class="ct-confirm">
+        <div class="confirm-buy">
+            <p class="buy-text">購入確認</p>
+            <div class="fee">
+                <p>合計（税込）</p>
+                <p>￥0</p>
+            </div>
+        </div>
+        <div class="confirm-settle">
+            <p class="settle-text">精算確認</p>
+            <p class="caution-txt">以下の登録クレジットで精算します<br />よろしいですか？</p>
+        </div>
+        <div>
+            <a class="btn-a ct-btn-a" href="coupon-ticket-sales">決済する</a>
+            <a class="btn-b ct-btn-b" href="coupon-ticket-sales">戻る</a>
+        </div>
+    </div>
+</div>
+@code {
+
+}

@@ -1,0 +1,29 @@
+﻿body {
+}
+
+.ct-usage {
+    text-align: center;
+    padding-bottom: 500px;
+}
+
+.ct-usage-txt1 {
+    padding-top: 40px;
+    padding-bottom: 20px;
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.ct-usage-txt2 {
+
+}
+
+.selects {
+    width: 40%;
+    padding: 5px 0;
+    margin-top: 15px;
+    margin-bottom: 20px;
+}
+
+.ct-btn-a {
+    margin-top: 30px;
+}

@@ -1,0 +1,48 @@
+﻿@page "/couponticket"
+
+<header>
+    <div class="header-items">
+        <a href="mypage">
+            <img src="images/icon1.png" />
+        </a>
+        <p>回数券</p>
+        <div class="nav-menu">
+            <input type="checkbox" id="switch">
+            <label for="switch">
+                <p><span></span></p>
+            </label>
+            <nav class="navwrap">
+                <div class="navwrap-inner">
+                    <div class="menu-bar-items">
+                        <p>No.0</p>
+                        <ui>
+                            <li><a href="">マイページ</a></li>
+                            <li><a href="information">おしらせ</a></li>
+                            <li><a href="settlementinputkey">館内利用精算</a></li>
+                            <li><a href="couponticket">回数券購入</a></li>
+                            <li><a href="congestion">混雑状況表示</a></li>
+                            <li><a href="accountsettings">アカウント</a></li>
+                            <li><a href="">利用規約</a></li>
+                            <li><a href="">プライバシーポリシー</a></li>
+                        </ui>
+                    </div>
+                    <div class="nav-logout-btn">
+                        <a href="">ログアウト</a>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </div>
+</header>
+<div class="container">
+    <div class="coupon-ticket">
+        <div class="ct-menu">
+            <a href="coupon-ticket-sales">回数券購入</a>
+            <a href="coupon-ticket-usage-history">回数券利用履歴</a>
+            <a href="coupon-ticket-payment-history">回数券購入履歴</a>
+        </div>
+    </div>
+</div>
+@code {
+
+}

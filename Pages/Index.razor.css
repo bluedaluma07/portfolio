@@ -1,0 +1,98 @@
+﻿body {
+}
+
+html {
+}
+
+.sign-in-logo {
+    border-bottom: 1px solid #C0C0C0;
+    padding: 30px 0;
+    width: 100%;
+}
+
+    .sign-in-logo img {
+        width: 100%;
+    }
+
+.sign-in-new {
+    padding: 30px 0;
+    text-align: center;
+}
+
+    .sign-in-new p {
+        margin-bottom: 30px;
+        font-size: 20px;
+        font-weight: bold;
+        letter-spacing: 5px;
+    }
+
+.sign-in-new-btn {
+    background-color: white;
+    border: 2px solid black;
+    color: #212529;
+    border-radius: 7px;
+    display: inline-block;
+    width: 100%;
+    padding: 1px;
+    line-height: 50px;
+    font-size: 14px;
+    letter-spacing: 2px;
+}
+
+.sign-in-login {
+    border-top: 1px solid #C0C0C0;
+    color: #333333;
+    position: relative;
+}
+
+    .sign-in-login h1 {
+        font-size: 18px;
+        letter-spacing: 3px;
+        text-align: center;
+        color: #888888;
+        font-weight: bold;
+        border: none;
+        /*position: absolute;
+        top: 0;*/
+    }
+
+.mailadress {
+    margin-bottom: 20px;
+}
+
+.passward {
+    margin-bottom: 20px;
+}
+
+.sign-in-login input {
+    height: 60px;
+    width: 100%;
+    border: 1px solid #E6E6E6;
+    border-radius: 8px;
+}
+
+.login-btn {
+    /*color: white;
+    background-color: #0000CD;
+    border-radius: 7px;
+    display: inline-block;
+    padding: 18px;
+    width: 100%;
+    font-size: 14px;
+    letter-spacing: 4px;
+    text-align: center;*/
+    margin-bottom: 40px;
+}
+.sign-in-not-login {
+    padding-bottom: 200px;
+}
+
+.sign-in-not-login a {
+    padding-bottom: 8px;
+    color: #888888;
+    border-bottom: 1px solid #C0C0C0;
+}
+
+    .sign-in-not-login a:hover {
+        opacity: 0.7;
+    }

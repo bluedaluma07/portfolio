@@ -1,0 +1,49 @@
+﻿body {
+}
+
+.ct-confirm {
+    padding-bottom: 500px;
+}
+
+.confirm-buy {
+    
+}
+
+.buy-text {
+    padding-top: 40px;
+    padding-bottom: 20px;
+    text-align: center;
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.fee {
+    padding: 20px 10px;
+    display: flex;
+    font-weight: bold;
+    justify-content: space-between;
+    background-color: white;
+    margin-bottom: 20px;
+}
+
+.confirm-settle {
+    text-align: center;
+}
+
+.settle-text {
+    padding-bottom: 20px;
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.caution-txt {
+    font-size: 12px;
+}
+
+.ct-btn-a {
+    margin-top: 20px;
+}
+
+.ct-btn-b {
+    margin-top: 15px;
+}

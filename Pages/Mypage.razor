@@ -1,0 +1,118 @@
+﻿@page "/mypage"
+
+<div class="mypage">
+    <div class="mapage-header">
+        <div class="header-inner">
+            <p>MY PAGE</p>
+            @* <div class="nav-menu">
+                <input type="checkbox" id="switch">
+                <label for="switch">
+                    <p><span></span></p>
+                </label>
+                <nav class="navwrap">
+                    <div class="navwrap-inner">
+                        <div class="menu-bar-items">
+                            <p>No.0</p>
+                            <ui>
+                                <li><a href="">マイページ</a></li>
+                                <li><a href="Information">おしらせ</a></li>
+                                <li><a href="">館内利用精算</a></li>
+                                <li><a href="">回数券購入</a></li>
+                                <li><a href="">混雑状況表示</a></li>
+                                <li><a href="">アカウント</a></li>
+                                <li><a href="">利用規約</a></li>
+                                <li><a href="">プライバシーポリシー</a></li>
+                            </ui>
+                        </div>
+                        <div class="nav-logout-btn">
+                            <a href="">ログアウト</a>
+                        </div>
+                    </div>
+                </nav>
+            </div> *@
+            <label class="header-menu" for="check">
+                <Input type="checkbox" id="check" />
+                <label for="check">
+                    <span class="menu_bar"></span>
+                    <span class="menu_bar"></span>
+                    <span class="menu_bar"></span>
+                </label>
+                <nav>
+                    <div class="nav-inner">
+                        <div class="back-btn">
+                            <div class="back-btn-items">
+                                <label for="check">
+                                    <span class="menu_bar"></span>
+                                    <span class="menu_bar"></span>
+                                    <span class="menu_bar"></span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="menu-bar-items">
+                            <p>No.0</p>
+                        <ui>
+                            <li><a href="">マイページ</a></li>
+                            <li><a href="information">おしらせ</a></li>
+                            <li><a href="settlementinputkey">館内利用精算</a></li>
+                            <li><a href="couponticket">回数券購入</a></li>
+                            <li><a href="congestion">混雑状況表示</a></li>
+                            <li><a href="accountsettings">アカウント</a></li>
+                            <li><a href="">利用規約</a></li>
+                            <li><a href="">プライバシーポリシー</a></li>
+                        </ui>
+                        </div>
+                        <a class="nav-logout-btn" href="">ログアウト</a>
+                    </div>
+                </nav>
+            </label>
+
+            @* <a href="#"><img src="images/icon2.png" /></a> *@
+        </div>
+    </div>
+    <div class="main-content">
+        <div class="main-inner">
+            <div class="main-logo">
+                <img src="images/logo3.png" />
+            </div>
+
+            <ui class="main-items">
+                <li>
+                    <p>会員区分</p>
+                    <p>？？？？</p>
+                </li>
+                <li>
+                    <p>有効期限</p>
+                    <p>？？？？</p>
+                </li>
+            </ui>
+            <div class="main-barcode">
+                <img src="images/icon-barcode.png" />
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="menu">
+        <p>メニュー</p>
+    </div>
+    <div class="logout">
+        <a class="logout-btn btn-b" href="#">ログアウト</a>
+    </div>
+    <div class="mypage-footer">
+        <div class="footer-items">
+            <ui>
+                <li><a>利用規約</a></li>
+                <li><a>プライバシーポリシー</a></li>
+            </ui>
+        </div>
+        <p>(c)2024 bluedaluma All right Reserved</p>
+    </div>
+</div>
+
+
+
+
+
+@code {
+
+    }
