@@ -1,0 +1,130 @@
+﻿@page "/coupon-ticket/confirm"
+@inherits PageBase
+
+@RenderLoading()
+
+<PageBaseLayout HeaderName="回数券購入" NavigateBackAction="NavigateToBack">
+    <main class="p-main-lower l-main-lower">
+        <div class="p-ticket-comfirm l-ticket-comfirm">
+            <div class="p-ticket-comfirm__inner l-inner">
+                <h3 class="p-ticket-comfirm__head c-head">購入確認</h3>
+                <div class="p-select-buy__countainer">
+
+                    @if (coupons is not null)
+                    {
+                        @foreach (var coupon in coupons)
+                        {
+                            @if (coupon.UseCount != 0)
+                            {
+                                <div class="p-ticket-comfirm__select p-select">
+                                    <p class="p-select__title">@coupon.coupon_name</p>
+                                    <div class="p-select__box">
+                                        <div class="p-select__wrap">
+                                            <div class="p-select__priceWrap">
+                                                <span class="p-select__price">@(String.Format("¥{0:#,0}", coupon.coupon_unit))</span>
+                                                <span class="p-select__times">@(coupon.give_count)回分</span>
+                                            </div>
+                                            <div class="p-select__total">
+                                                <span class="p-select__totalTitle">数量：</span>
+                                                <span class="p-select__totalNum">@coupon.UseCount</span>
+                                            </div>
+                                        </div>
+                                        <p class="p-select__limit">有効期限：@(coupon.coupon_expiration)</p>
+                                    </div>
+                                </div>
+                            }
+                        }
+                    }
+
+                </div>
+                <div class="p-select-buy__total p-total">
+                    <div class="p-total__box">
+                        <p class="p-total__name">合計(税込)</p>
+                        <div class="p-total__priceWrap">
+                            <span class="p-total__price js-total" id="output">@(String.Format("¥{0:#,0}", TotalAmount))</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="p-ticket-comfirm__comfirm">
+                    <h4 class="p-card__head c-head confirm-text">精算確認</h4>
+                    <p class="p-comfirm-card__text">
+                        以下の登録クレジットで精算します。<br />よろしいですか？
+                    </p>
+                    <div class="p-comfirm__cardWrap c-card confirm-card">
+                        <figure class="c-card__icon">
+                            <img src="images/icon-visa.svg" alt="visa" />
+                        </figure>
+                        <span class="c-card__num">****-****-****-<span class="c-card__end">5678</span></span>
+                    </div>
+                </div>
+                <div class="p-tiket-comfirm__btn">
+                    <button type="button" class="c-btn3" @onclick="Buy">決済する</button>
+                </div>
+                <div class="p-tiket-comfirm__back">
+                    <button type="button" class="c-btn4" @onclick="NavigateToBack">戻る</button>
+                </div>
+            </div>
+        </div>
+    </main>
+</PageBaseLayout>
+
+@code {
+
+    List<SearchCouponMasterCoupon>? coupons;
+
+    int TotalAmount
+    {
+        get
+        {
+            int amount = 0;
+            if (coupons is not null)
+            {
+                foreach (var coupon in coupons)
+                {
+                    amount += coupon.coupon_unit * coupon.UseCount;
+                }
+            }
+
+            return amount;
+        }
+    }
+
+    protected override async Task OnInitializedPreAsync()
+    {
+        var couponsResult = await ProtectedSessionStorage.GetAsync<List<SearchCouponMasterCoupon>>("couponlist");
+
+        if (couponsResult.Success)
+        {
+            coupons = couponsResult.Value;
+        }
+    }
+
+    private async Task Buy()
+    {
+        if (coupons is not null)
+        {
+            List<CouponTicketSalesCoupon> couponTicketSalesCoupons = new();
+            foreach (var coupon in coupons)
+            {
+                if(coupon.UseCount != 0)
+                {
+                    couponTicketSalesCoupons.Add(new() { coupon_code = coupon.coupon_code, count = coupon.UseCount });
+                }
+            }
+            CouponTicketSalesRequest request = new()
+            {
+                member_no = MemberNo,
+                coupon_list = couponTicketSalesCoupons,
+                service_name = "VISA"
+            };
+
+            NavigationManager.NavigateTo("/coupon-ticket/done");
+        }
+    }
+
+    private void NavigateToBack()
+    {
+        NavigationManager.NavigateTo("/coupon-ticket/sales");
+    }
+}
+

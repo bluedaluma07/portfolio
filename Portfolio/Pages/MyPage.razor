@@ -1,0 +1,246 @@
+﻿@page "/"
+
+@attribute [Authorize]
+
+@inject IJSRuntime JSRuntime
+@inject MemberInfoService MemberInfoService
+@inherits PageBase
+
+@RenderLoading()
+
+<div class="p-wrap l-wrap">
+    <header class="p-header l-header">
+        <div class="p-header__inner l-inner">
+            <div class="p-header__head">
+                <h2 class="p-header__title">MY PAGE</h2>
+
+                @* ヘッダー用ハンバーガーメニュー *@
+                @if (!isDrawerOpen)
+                {
+                    <div class="p-header__ham js-ham" @onclick="ClickHamburgerMenu">
+                        <span></span><span></span><span></span>
+                    </div>
+                }
+
+            </div>
+            <div class="p-header__drawer p-drawer js-drawer @IsDrawerActive">
+
+                @* ドロワー用のハンバーガーメニュー *@
+                @if (isDrawerOpen)
+                {
+                    <div class="drawer_ham p-header__ham js-ham is-active" @onclick="ClickHamburgerMenu">
+                        <span></span><span></span><span></span>
+                    </div>
+                }
+
+                <div class="p-drawer__wrap">
+                    <nav class="p-drawer__nav">
+                        <h3 class="p-drawer__head">
+                            <span class="p-drawer__name"></span>
+                            <span class="p-drawer__num">No.@(MemberNo)</span>
+                        </h3>
+                        <ul class="p-drawer__list">
+                            <li class="p-drawer__item">
+                                <a href="/">マイページ</a>
+                            </li>
+                            <li class="p-drawer__item">
+                                <a href="/coupon-ticket/sales">商品購入</a>
+                            </li>
+                            <li class="p-drawer__item">
+                                <a href="/account-settings">アカウント</a>
+                            </li>
+                            <li class="p-drawer__item">
+                                <a href="/information">おしらせ</a>
+                            </li>
+                            <li class="p-drawer__item">
+                                <a href="/congestion">混雑状況表示</a>
+                            </li>
+                            <li class="p-drawer__item">
+                                <a href="/terms-of-service">利用規約</a>
+                            </li>
+                            <li class="p-drawer__item">
+                                <a href="">プライバシーポリシー</a>
+                            </li>
+                        </ul>
+                        <div class="p-drawer__btn">
+                            <button type="button" class="c-btn" @onclick="LogoutAsync">ログアウト</button>
+                        </div>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </header>
+    <section class="p-main l-main">
+        <div class="p-main__inner l-inner">
+            <div class="p-main__content">
+                <h1 class="p-main__logo"><img src="images/logo.png" alt="ポートフォリオロゴ"></h1>
+                <div class="p-main__info p-info">
+                    <div class="p-info__content">
+                        <p class="p-info__title">会員区分</p>
+                        <p class="p-info__caption">@ClassName</p>
+                    </div>
+                    <div class="p-info__content">
+                        <p class="p-info__title">有効期限</p>
+                        <time class="p-info__limit" datetime="2024-07-01">@ExpirationYear<span class="p-info__mark">/</span>@ExpirationMonth<span class="p-info__mark">/</span>@ExpirationDay</time>
+                    </div>
+                    @if (systemSetting.PointVisible)
+                    {
+                        <div class="p-info__content">
+                            <p class="p-info__title">ポイント</p>
+                            <p class="p-info__point">@MemberPoint<span class="p-info__pt">pt</span></p>
+                        </div>
+                        <div class="p-info__content">
+                            <p class="p-info__title">ポイント有効期限</p>
+                            <time class="p-info__limit" datetime="2024-07-01">@PointExpirationYear<span class="p-info__mark">/</span>@PointExpirationMonth<span class="p-info__mark">/</span>@PointExpirationDay</time>
+                        </div>
+                    }
+                </div>
+                @if(systemSetting.UseCreditFlag)
+                {
+                    <button type="button" class="p-main__card">クレジットカード未登録</button>
+                }
+            </div>
+        </div>
+    </section>
+    <section class="p-menu l-menu">
+        <div class="p-menu__inner l-inner">
+            <h2 class="p-menu__head">メニュー</h2>
+            <div class="p-menu__contents">
+                @if (menuButtons is not null)
+                {
+                    @foreach (var button in menuButtons)
+                    {
+                        <button type="button" class="p-menu__item" @onclick="button.OnClick">
+                            <span class="p-menu__icon @button.IconClass"></span>
+                            @button.Text
+                        </button>
+                    }
+                }
+            </div>
+        </div>
+    </section>
+    <div class="p-out l-out">
+        <div class="p-out_inner l-inner">
+            <button type="button" class="p-out__btn c-btn" @onclick="LogoutAsync">ログアウト</button>
+        </div>
+    </div>
+
+    <footer class="p-footer l-footer">
+        <div class="p-footer__inner l-inner">
+            <ul class="p-footer__list">
+                <li class="p-footer__item">
+                    <a href="/terms-of-service" class="p-footer__btn">利用規約</a>
+                </li>
+                <li class="p-footer__item">
+                    <a href="/privacy-policy" class="p-footer__btn">プライバシーポリシー</a>
+                </li>
+            </ul>
+            <p class="p-footer__copy">(c)@DateTime.Now.ToString("yyyy") Portfolio All right Reserved.</p>
+        </div>
+    </footer>
+</div>
+
+@code {
+
+    string ClassName => response is not null ? response.class_name : string.Empty;
+
+    string ExpirationYear => response is not null ? response.expiration.Split('/')[0] : string.Empty;
+
+    string ExpirationMonth => response is not null ? response.expiration.Split('/')[1] : string.Empty;
+
+    string ExpirationDay => response is not null ? response.expiration.Split('/')[2] : string.Empty;
+
+    int MemberPoint => response is not null ? response.member_point : 0;
+
+    string PointExpirationYear => response is not null ? response.point_expiration.Split('/')[0] : string.Empty;
+
+    string PointExpirationMonth => response is not null ? response.point_expiration.Split('/')[1] : string.Empty;
+
+    string PointExpirationDay => response is not null ? response.point_expiration.Split('/')[2] : string.Empty;
+
+    MemberInfoResponse? response;
+
+    SystemSetting systemSetting;
+
+    private List<MenuButton> menuButtons;
+
+    private string IsDrawerActive => isDrawerOpen ? "is-active" : "";
+
+    bool isDrawerOpen;
+
+    protected override void OnInitializedPre()
+    {
+        systemSetting = new();
+    }
+
+    protected override async Task OnInitializedPreAsync()
+    {
+        // メニューボタン動的に追加
+        menuButtons = new List<MenuButton>();
+        menuButtons.Add(new MenuButton { Text = "商品購入", OnClick = NavigationToProduct, DisplayOrder = systemSetting.AccountMenuDisplay, IconClass = "p-menu__icon--settle" });
+        menuButtons.Add(new MenuButton { Text = "アカウント", OnClick = NavigationToAccount, DisplayOrder = systemSetting.AccountMenuDisplay, IconClass = "p-menu__icon--account" });
+        menuButtons.Add(new MenuButton { Text = "お知らせ", OnClick = NavigationToInformation, DisplayOrder = systemSetting.AccountMenuDisplay, IconClass = "p-menu__icon--attention" });
+        menuButtons.Add(new MenuButton { Text = "混雑状況表示", OnClick = NavigationToCongestion, DisplayOrder = systemSetting.AccountMenuDisplay, IconClass = "p-menu__icon--situation" });
+        
+        response = await MemberInfoService.SendRequestAsync();
+    }
+
+    /// <summary>
+    /// ハンバーガークリック時の処理
+    /// </summary>
+    /// <returns></returns>
+    private async Task ClickHamburgerMenu()
+    {
+        isDrawerOpen = !isDrawerOpen;
+        if (isDrawerOpen)
+        {
+            await JSRuntime.InvokeVoidAsync("addHamburgerMenu");
+        }
+        else
+        {
+            await JSRuntime.InvokeVoidAsync("removeHamburgerMenu");
+        }
+    }
+
+    /// <summary>
+    /// クーポンページへ移動し、overflow属性を除去する。
+    /// </summary>
+    /// <returns></returns>
+    private async Task NavigationToCouponAndRemoveOverflowHidden()
+    {
+        await JSRuntime.InvokeVoidAsync("removeBodyOverflowHidden");
+        NavigationManager.NavigateTo("/coupon-ticket");
+    }
+
+    /// <summary>
+    /// 商品購入へ移動
+    /// </summary>
+    private void NavigationToProduct()
+    {
+        NavigationManager.NavigateTo("/coupon-ticket/sales");
+    }
+
+    /// <summary>
+    /// お知らせへ移動
+    /// </summary>
+    private void NavigationToInformation()
+    {
+        NavigationManager.NavigateTo("/information");
+    }
+
+    /// <summary>
+    /// 混雑状況画面へ移動
+    /// </summary>
+    private void NavigationToCongestion()
+    {
+        NavigationManager.NavigateTo("/congestion");
+    }
+
+    /// <summary>
+    /// アカウントページへ移動
+    /// </summary>
+    private void NavigationToAccount()
+    {
+        NavigationManager.NavigateTo("/account-settings");
+    }
+}

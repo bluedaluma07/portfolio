@@ -1,0 +1,24 @@
+﻿.p-delete {
+    padding-top: 1.875rem;
+    height: 100vh;
+}
+
+.p-delete__text {
+    font-size: 0.875rem;
+    line-height: 1.5714285714;
+    letter-spacing: 0.2em;
+    margin-top: 2.1875rem;
+    text-align: center;
+}
+
+    .p-delete__text:nth-child(n+2) {
+        margin-top: 1em;
+    }
+
+.p-delete__btn {
+    margin-top: 2.5rem;
+}
+
+.p-delete__back {
+    margin-top: 1.625rem;
+}

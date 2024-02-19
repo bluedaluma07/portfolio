@@ -1,0 +1,37 @@
+﻿@page "/information"
+@inherits PageBase
+@inject InformationService InformationService
+
+@RenderLoading()
+
+<PageBaseLayout HeaderName="おしらせ" NavigateBackAction="NavigateToMyPage">
+    <main class="p-main-info-lower l-main-lower">
+            <div class="p-news__inner l-inner">
+                <ul class="p-news__contents">
+                    @if (information is not null)
+                    {
+                        @foreach (var info in information.InformationList)
+                        {
+                            <li class="p-news__content">
+                                <time class="p-news__date">@(info.RegistDate.ToString("yyyy.MM.dd"))</time>
+                                <h3 class="p-news__title">@info.InformationTitle</h3>
+                                <p class="p-news__text">
+                                    @info.InformationText
+                                </p>
+                            </li>
+                        }
+                    }
+                </ul>
+            </div>
+    </main>
+</PageBaseLayout>
+
+@code {
+    InformationModel? information;
+
+    protected override void OnInitializedPre()
+    {
+        information = InformationService.GetInformation();
+    }
+
+}

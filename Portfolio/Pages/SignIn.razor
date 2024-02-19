@@ -1,0 +1,87 @@
+﻿@page "/sign-in"
+@inherits PageBase
+@inject CertificationService CertificationService
+
+@RenderLoading()
+
+<div class="p-wrap p-wrap--login">
+    <div class="p-head">
+        <div class="p-head__inner l-inner">
+            <h1 class="p-head__logo">
+                <img src="images/logo.png" alt="ポートフォリオロゴ">
+            </h1>
+        </div>
+    </div>
+    <div class="p-login l-login">
+        <div class="p-login__inner l-inner">
+            <h3 class="p-login__title">ログイン</h3>
+            <form class="p-login__form p-form">
+                <EditForm OnValidSubmit="LoginAsync" Model="inputModel">
+                    <DataAnnotationsValidator />
+                    <ul class="p-form__list">
+                        <li class="p-form__item">
+                            <label for="login-mail" class="p-form__title">メールアドレス</label>
+                            <input type="email" class="p-form__input" id="login-mail" @bind-value="inputModel.MailAddress">
+                            <ValidationMessage For="() => inputModel.MailAddress" />
+                        </li>
+                        <li class="p-form__item">
+                            <label for="login-pass" class="p-form__title">パスワード</label>
+                            <div class="p-form__box">
+                                <input type="@PasswordButtonType" class="p-form__input" id="login-pass" @bind-value="inputModel.Password">
+                                <button type="button" class="p-form__view" @onclick="ChangePasswordDisplay">表示</button>
+                            </div>
+                            <ValidationMessage For="() => inputModel.Password" />
+                        </li>
+                        <li class="p-form__item">
+                            <button type="submit" class="p-forem__btn c-btn3">ログイン</button>
+                        </li>
+                        @if (!string.IsNullOrWhiteSpace(error))
+                        {
+                            <p style="color:red">@error</p>
+                        }
+                    </ul>
+                </EditForm>
+            </form>
+        </div>
+    </div>
+</div>
+
+@code {
+    string PasswordButtonType => isDisplay ? "" : "password";
+
+    bool isDisplay = false;
+
+    LoginInputVerificationModel inputModel = new();
+
+    string? error;
+
+    /// <summary>
+    /// ログイン処理
+    /// </summary>
+    /// <returns></returns>
+    private async Task LoginAsync()
+    {
+        bool loginResult = await CertificationService.LoginAsync(inputModel.MailAddress!, inputModel.Password!);
+        if (loginResult == true)
+        {
+            NavigationManager.NavigateTo("/");
+        }
+        else
+        {
+            error = "ログインに失敗しました。";
+        }
+    }
+
+    /// <summary>
+    /// 新規登録画面へ遷移
+    /// </summary>
+    private void NavigationToSignUp()
+    {
+        NavigationManager.NavigateTo("/sign-up");
+    }
+
+    private void ChangePasswordDisplay()
+    {
+        isDisplay = !isDisplay;
+    }
+}

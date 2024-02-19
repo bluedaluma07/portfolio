@@ -1,0 +1,63 @@
+﻿#components-reconnect-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    z-index: 1000;
+    background-color: rgba(255, 255, 255, 0.7);
+    /* 👇 初期状態では、「再接続中」モーダルは不可視 */
+    display: none;
+}
+
+    #components-reconnect-modal.components-reconnect-show,
+    #components-reconnect-modal.components-reconnect-failed,
+    #components-reconnect-modal.components-reconnect-rejected {
+        /* 接続状態に何かしら問題発生している場合は👆のセレクタで示されるような
+           CSS クラス名が付くのでそのときは「再接続中」モーダルを可視化 👇 */
+        display: block;
+    }
+
+    /* 👇 ここから下は、「再接続中」モーダルにおけるスピナーのアニメーション表示
+          など、外観の調整・定義  */
+    #components-reconnect-modal .loading {
+        width: 360px;
+        height: 110px;
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        margin: auto;
+    }
+
+        #components-reconnect-modal .loading .loading-caption {
+            color: #88a;
+            font-size: 18px;
+            text-align: center;
+        }
+
+        #components-reconnect-modal .loading .loading-progress-ring {
+            border: solid 10px;
+            border-color: #88a #eee #eee;
+            border-radius: 50px;
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            top: unset;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            margin: auto;
+            animation: rotation 1.5s linear 0s infinite;
+        }
+
+@keyframes rotation {
+    0% {
+        transform: rotate(45deg);
+    }
+
+    100% {
+        transform: rotate(405deg);
+    }
+}

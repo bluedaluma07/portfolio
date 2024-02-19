@@ -1,0 +1,106 @@
+﻿@page "/coupon-ticket/sales"
+@inherits PageBase
+@inject SearchCouponMasterService SearchCouponMasterService
+
+@RenderLoading()
+
+<PageBaseLayout HeaderName="商品購入">
+    <main class="p-main-coupon-sales-lower l-main-lower">
+        <div class="p-ticket-buy l-ticket-buy">
+            <div class="p-ticket-buy__inner l-inner">
+
+                @if (response?.coupon_list is not null)
+                {
+                    @foreach (var coupon in response?.coupon_list!)
+                    {
+                        <div class="p-select-buy__countainer p-select-buy__countainer--remaining">
+                            <div class="p-ticket-buy__select p-select">
+                                <p class="p-select__title">@coupon.coupon_name</p>
+                                <div class="p-select__wrap">
+                                    <div class="p-select__priceWrap">
+                                        <span class="p-select__price">@(String.Format("¥{0:#,0}", coupon.coupon_unit))</span>
+                                        <span class="p-select__times">@(coupon.give_count)回分</span>
+                                    </div>
+                                    <div class="p-select__counter">
+                                        <button type="button" class="p-select__down js-down2" @onclick="() => RemoveCoupon(coupon)"></button>
+                                        <span class="p-select__num js-num2">@coupon.UseCount</span>
+                                        <button type="button" class="p-select__up js-up2" @onclick="() => AddCoupon(coupon)"></button>
+                                    </div>
+                                </div>
+                                <p class="p-select__limit">有効期限：@(coupon.coupon_expiration)</p>
+                            </div>
+                        </div>
+                    }
+                }
+
+                <div class="p-select-buy__total p-total">
+                    <div class="p-total__box">
+                        <p class="p-total__name">合計(税込)</p>
+                        <div class="p-total__priceWrap">
+                            <span class="p-total__price js-total" id="output">@(String.Format("¥{0:#,0}", TotalAmount))</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="p-tiket-buy__btn">
+                    <button type="button" class="c-btn3" @onclick="NavigateToCouponTicketConfirm">確認</button>
+                </div>
+                <div class="p-tiket-buy__back">
+                    <button type="button" class="c-btn5" @onclick="NavigateToMyPage">マイページに戻る</button>
+                </div>
+            </div>
+        </div>
+    </main>
+</PageBaseLayout>
+
+@code {
+    SearchCouponMasterResponse? response;
+
+    int TotalAmount
+    {
+        get
+        {
+            int amount = 0;
+            if (response?.coupon_list is not null)
+            {
+                foreach (var coupon in response?.coupon_list!)
+                {
+                    amount += coupon.coupon_unit * coupon.UseCount;
+                }
+            }
+
+            return amount;
+        }
+    }
+
+    protected override void OnInitializedPre()
+    {
+        response = SearchCouponMasterService.GetProduct();
+    }
+
+    private void AddCoupon(SearchCouponMasterCoupon coupon)
+    {
+        coupon.UseCount++;
+        StateHasChanged();
+    }
+
+    private void RemoveCoupon(SearchCouponMasterCoupon coupon)
+    {
+        if (coupon.UseCount == 0)
+        {
+            return;
+        }
+
+        coupon.UseCount--;
+        StateHasChanged();
+    }
+
+    /// <summary>
+    ///
+    /// </summary>
+    private async Task NavigateToCouponTicketConfirm()
+    {
+        await ProtectedSessionStorage.SetAsync("couponlist", response?.coupon_list!);
+
+        NavigationManager.NavigateTo("/coupon-ticket/confirm");
+    }
+}

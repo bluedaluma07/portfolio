@@ -1,0 +1,20 @@
+﻿@page "/account-settings/info/done"
+@inherits PageBase
+
+@RenderLoading()
+
+<PageBaseLayout HeaderName="会員情報確認・編集" NavigateBackAction="NavigateToMyPage">
+    <main class="p-main-lower l-main-lower">
+        <div class="p-account-complete__inner l-inner">
+            <h3 class="p-account-complete__head c-head">変更完了</h3>
+            <p class="p-account-complete__text">会員情報の変更が完了しました。</p>
+            <div class="p-account-complete__btn">
+                <button type="button" class="c-btn5" @onclick="NavigateToMyPage">マイページに戻る</button>
+            </div>
+        </div>
+    </main>
+</PageBaseLayout>
+
+@code {
+
+}

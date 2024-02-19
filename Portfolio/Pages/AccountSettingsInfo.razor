@@ -1,0 +1,69 @@
+﻿@page "/account-settings/info"
+@inherits PageBase
+@inject MemberInfoService MemberInfoService
+
+@RenderLoading()
+
+<PageBaseLayout HeaderName="会員情報確認・編集" NavigateBackAction="NavigateToBack">
+    <main class="p-main-lower l-main-lower">
+        <div class="p-account__inner l-inner">
+            <div class="p-account-check l-account-check p-comfirm">
+                <ul class="p-comfirm__contents">
+                    <li class="p-comfirm__content">
+                        <p class="p-comfirm__title">会員番号</p>
+                        <p class="p-comfirm__input">@MemberNo</p>
+                    </li>
+                    <li class="p-comfirm__content">
+                        <p class="p-comfirm__title">氏名</p>
+                        <p class="p-comfirm__input">@response?.member_name</p>
+                    </li>
+                    <li class="p-comfirm__content">
+                        <p class="p-comfirm__title">ふりがな</p>
+                        <p class="p-comfirm__input">@response?.member_kana</p>
+                    </li>
+                    <li class="p-comfirm__content">
+                        <p class="p-comfirm__title">性別</p>
+                        <p class="p-comfirm__input">@response?.gender</p>
+                    </li>
+                    <li class="p-comfirm__content">
+                        <p class="p-comfirm__title">生年月日</p>
+                        <p class="p-comfirm__input">@response?.birthday</p>
+                    </li>
+                    <li class="p-comfirm__content">
+                        <p class="p-comfirm__title">電話番号</p>
+                        <p class="p-comfirm__input">@response?.phone_number</p>
+                    </li>
+                </ul>
+                <div class="p-account-check__btn">
+                    <button type="button" class="c-btn3 c-btn3--red" @onclick="NavigateToAccountSettingsInfoEdit">会員情報を編集する</button>
+                </div>
+                <div class="p-account-check__back">
+                    <button type="button" class="c-btn4" @onclick="NavigateToBack">戻る</button>
+                </div>
+            </div>
+        </div>
+    </main>
+</PageBaseLayout>
+
+@code {
+
+    MemberInfoResponse? response;
+
+    protected override async Task OnInitializedPreAsync()
+    {
+        response = await MemberInfoService.SendRequestAsync();
+    }
+
+    /// <summary>
+    ///
+    /// </summary>
+    private void NavigateToAccountSettingsInfoEdit()
+    {
+        NavigationManager.NavigateTo("/account-settings/info/edit");
+    }
+
+    private void NavigateToBack()
+    {
+        NavigationManager.NavigateTo("/account-settings");
+    }
+}

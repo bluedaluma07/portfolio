@@ -1,0 +1,24 @@
+﻿@using System.Net.Http
+@using System.Diagnostics;
+@using System.Security.Claims;
+@using Microsoft.AspNetCore.Authorization
+@using Microsoft.AspNetCore.Components.Authorization
+@using Microsoft.AspNetCore.Components.Forms
+@using Microsoft.AspNetCore.Components.Routing
+@using Microsoft.AspNetCore.Components.Web
+@using Microsoft.AspNetCore.Components.Web.Virtualization
+@using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage;
+@using Microsoft.JSInterop
+@using Portfolio
+@using Portfolio.Shared
+@using Portfolio.Services;
+@using Portfolio.Components;
+@using Portfolio.Data.Models;
+@using Portfolio.Components.Validation
+@using Portfolio.Components.PageBase;
+@using Portfolio.Utilities;
+
+@inject NavigationManager NavigationManager
+@inject ProtectedSessionStorage ProtectedSessionStorage;
+@inject CertificationService CertificationService
+@inject SessionStorageAuthenticationStateProvider AuthenticationStateProvider

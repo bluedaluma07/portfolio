@@ -1,0 +1,84 @@
+﻿@page "/account-settings/payment-methods"
+@inherits PageBase
+@inject CreditCardService CreditCardService
+
+@RenderLoading()
+
+<PageBaseLayout HeaderName="支払い方法変更" NavigateBackAction="NavigateBack">
+    <div class="p-credit l-credit">
+        <div class="p-credit__inner l-inner">
+
+            @if (_creditCards is not null)
+            {
+                foreach (var card in _creditCards)
+                {
+                    <div class="p-credit__cards">
+                        <div class="p-credit__name">
+                            <span>カード番号</span>
+                            <span>有効期限</span>
+                        </div>
+                        <div class="p-credit__card">
+                            <figure class="p-credit__icon">
+                                <img src="images/icon-visa.png" alt="visa" />
+                            </figure>
+                            <span class="p-credit__num">****-****-****-@(CreditCardService.GetFourthNumber(card))</span>
+                            <span class="p-credit__limit">@card.ExpireDate.ToString("MM/yy")</span>
+                        </div>
+                        <div class="p-credit__delete">
+                            <button type="button" @onclick="() => RemoveCard(card)">このカードを削除する</button>
+                        </div>
+                    </div>
+                }
+                <div class="p-credit__lower">
+                    <p class="p-credit__text">
+                        カード情報を変更する場合は<br />
+                        登録済みのカードを削除していただき、新しいカードを登録して下さい
+                    </p>
+                    <div class="p-credit__btn">
+                        <button type="button" class="c-btn6 c-btn6--off" @onclick="NavigateToAccountSettingsPaymentMethodsRegist">
+                            <span class="c-btn6__icon"></span>新しいカードを登録する
+                        </button>
+                    </div>
+                    <div class="p-credit__back">
+                        <button type="button" class="c-btn5" @onclick="NavigateToMyPage">マイページに戻る</button>
+                    </div>
+                </div>
+            }
+
+        </div>
+    </div>
+
+</PageBaseLayout>
+
+@code {
+    IList<CreditCard> _creditCards;
+
+    protected override void OnInitializedPre()
+    {
+        _creditCards = CreditCardService.CreditCards;
+    }
+
+    private void RemoveCard(CreditCard creditCard)
+    {
+        var result = CreditCardService.RemoveCard(creditCard);
+
+        if (result)
+        {
+            _creditCards = CreditCardService.CreditCards;
+        }
+    }
+
+    /// <summary>
+    ///
+    /// </summary>
+    private void NavigateToAccountSettingsPaymentMethodsRegist()
+    {
+        NavigationManager.NavigateTo("/account-settings/payment-methods/regist");
+    }
+
+    private void NavigateBack()
+    {
+        NavigationManager.NavigateTo("/account-settings");
+    }
+
+}

@@ -1,0 +1,17 @@
+﻿.p-credit-error {
+    height: 100vh;
+    background-color: #FAFAFA;
+    padding-top: 1.875rem;
+}
+
+.p-credit-error__text {
+    font-size: 0.875rem;
+    line-height: 1.5714285714;
+    letter-spacing: 0.2em;
+    text-align: center;
+    margin-top: 2.1875rem;
+}
+
+.p-credit-error__btn {
+    margin-top: 1.5625rem;
+}

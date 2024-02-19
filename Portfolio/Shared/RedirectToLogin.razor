@@ -1,0 +1,14 @@
+﻿@code {
+    protected override async Task OnAfterRenderAsync(bool firstrender)
+    {
+        if (firstrender)
+        {
+            var isSuccess = await AuthenticationStateProvider.LoadAuthenticationStateAsync();
+            if (!isSuccess)
+            {
+                await AuthenticationStateProvider.UpdateLoginStatusAsync(null);
+                NavigationManager.NavigateTo("/sign-in", true);
+            }
+        }
+    }
+}

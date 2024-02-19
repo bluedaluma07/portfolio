@@ -1,0 +1,23 @@
+﻿@page "/account-settings/payment-methods/done"
+@inherits PageBase
+
+@RenderLoading()
+
+<PageBaseLayout HeaderName="支払い方法変更" NavigateBackAction="NavigateToMyPage">
+    <div class="p-credit-complete l-credit-complete">
+        <div class="p-credit-complete__inner l-inner">
+            <figure class="p-credit-complete__icon">
+                <img src="images/icon-check.svg" alt="" />
+            </figure>
+            <h3 class="p-credit-complete__head c-head">変更完了</h3>
+            <p class="p-credit-complete__text">会員情報の変更が完了しました。</p>
+            <div class="p-credit-complete__btn">
+                <button type="button" class="c-btn5" @onclick="NavigateToMyPage">マイページに戻る</button>
+            </div>
+        </div>
+    </div>
+</PageBaseLayout>
+
+@code {
+
+}

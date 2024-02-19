@@ -1,0 +1,121 @@
+﻿@page "/account-settings/payment-methods/regist"
+@inherits PageBase
+@inject CreditCardService CreditCardService
+
+@RenderLoading()
+
+<PageBaseLayout HeaderName="支払い方法変更" NavigateBackAction="NavigateBack">
+    <main class="p-main-lower l-main-lower">
+        <div class="p-credit-change l-credit-change">
+            <div class="p-credit-change__inner l-inner">
+                <div class="p-credit-change__cards">
+                    <p class="p-credit-change__text">使用可能なカードブランド</p>
+                    <div class="p-credit-change__blands">
+                        <figure class="p-credit-change__bland">
+                            <img src="images/icon-visa.png" alt="visa" />
+                        </figure>
+                        <figure class="p-credit-change__bland">
+                            <img src="images/icon-master.png" alt="master" />
+                        </figure>
+                        <figure class="p-credit-change__bland">
+                            <img src="images/icon-jcb.png" alt="jcb" />
+                        </figure>
+                        <figure class="p-credit-change__bland">
+                            <img src="images/icon-amex.png" alt="amex" />
+                        </figure>
+                        <figure class="p-credit-change__bland">
+                            <img src="images/icon-diners.png" alt="diners" />
+                        </figure>
+                    </div>
+                </div>
+
+                <EditForm Model="@creditCard" class="p-credit-change__card p-card-input" OnValidSubmit="NavigateToAccountSettingsPaymentMethodsDone">
+                    <DataAnnotationsValidator />
+                    <div class="p-card-input__wrap">
+                        <label for="cc-number" class="p-card-input__label">カード番号</label>
+                        <div class="p-card-input__box">
+                            <input id="cc-number"
+                                class="p-card-input__num"
+                                @bind-value="creditCard.CardNumber"
+                                inputmode="numeric"
+                                pattern="[\d ]{14,16}"
+                                autocomplete="cc-number"
+                                placeholder="1234 5678 9012 3456" />
+                        </div>
+                        <ValidationMessage For="() => creditCard.CardNumber" />
+                    </div>
+                    <div class="p-card-input__wrap">
+                        <label class="p-card-input__label">有効期限</label>
+                        <div class="p-card-input__box">
+                            <InputSelect class="p-card-input__num p-card-input__limit" @bind-Value="creditCard.ExpireDateMonth">
+                                <option value="0">月</option>
+                                @for (int i = 1; i <= 12; i++)
+                                {
+                                    <option value="@i">@i.ToString("00")</option>
+                                }
+                            </InputSelect>
+                            <span class="p-card-input__mark"></span>
+                            <InputSelect class="p-card-input__num p-card-input__limit" @bind-Value="creditCard.ExpireDateYear">
+                                <option value="0">年</option>
+                                @for (int i = 0; i < 10; i++)
+                                {
+                                    int year = DateTime.Now.Year + i;
+                                    <option value="@year">@year.ToString().Substring(2, 2)</option>
+                                }
+                            </InputSelect>
+                        </div>
+                        <ValidationMessage For="() => creditCard.ExpireDateMonth" />
+                        <ValidationMessage For="() => creditCard.ExpireDateYear" />
+                    </div>
+                    <div class="p-card-input__wrap">
+                        <label for="cc-csc" class="p-card-input__label">セキュリティコード</label>
+                        <div class="p-card-input__box">
+                            <input id="cc-csc"
+                                class="p-card-input__num p-card-input__csc"
+                                @bind-value="creditCard.SecurityNumber"
+                                inputmode="numeric"
+                                autocomplete="cc-csc"
+                                placeholder="123" />
+                        </div>
+                        <ValidationMessage For="() => creditCard.SecurityNumber" />
+                    </div>
+                    <div class="p-credit-change__btn">
+                        <button type="submit" class="c-btn3">カードを登録する</button>
+                    </div>
+                </EditForm>
+                @if (!string.IsNullOrWhiteSpace(error))
+                {
+                    <p style="color:red">@error</p>
+                }
+            </div>
+        </div>
+    </main>
+</PageBaseLayout>
+
+@code {
+    CreditCardInputModel creditCard = new();
+
+    string? error;
+
+    /// <summary>
+    /// 設定完了画面へ遷移
+    /// </summary>
+    private void NavigateToAccountSettingsPaymentMethodsDone()
+    {
+        var result = CreditCardService.AddCard(creditCard);
+        if (result)
+        {
+            NavigationManager.NavigateTo("/account-settings/payment-methods/done");
+        }
+        else
+        {
+            error = "登録に失敗しました。";
+        }
+        
+    }
+
+    private void NavigateBack()
+    {
+        NavigationManager.NavigateTo("/account-settings/payment-methods");
+    }
+}

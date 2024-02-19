@@ -1,0 +1,28 @@
+﻿.l-ticket-buy {
+    margin-top: 1.9375rem;
+}
+
+.p-select-buy__countainer:nth-child(n+2) {
+    margin-top: 2.625rem;
+}
+
+.p-ticket-buy__count {
+    font-size: 0.875rem;
+    line-height: 2.0714285714;
+    letter-spacing: 0.1em;
+    font-weight: 500;
+    text-align: center;
+}
+
+.p-tiket-buy__btn {
+    margin-top: 1.5625rem;
+}
+
+.p-tiket-buy__back {
+    margin-top: 0.75rem;
+}
+
+.p-main-coupon-sales-lower {
+    background-color: #FAFAFA;
+    height: 100%;
+}

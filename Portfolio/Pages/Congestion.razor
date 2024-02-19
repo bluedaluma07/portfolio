@@ -1,0 +1,39 @@
+﻿@page "/congestion"
+@inherits PageBase
+
+@RenderLoading()
+
+<PageBaseLayout HeaderName="混雑状況確認" NavigateBackAction="NavigateToMyPage">
+    <main class="p-main-lower l-main-lower">
+        <div class="p-situation l-situation">
+            <div class="p-situation__inner l-inner">
+                <div class="p-situation__iconWrap">
+                    <figure class="p-situation__icon">
+                        <img src="images/icon-situation1.png" alt="空" />
+                    </figure>
+                    <p class="p-situation__text">空いています</p>
+                </div>
+                <div class="p-situation__timeWrap">
+                    <time class="p-situation__realtime js-time">@formattedTime</time><span>現在</span>
+                </div>
+                <div class="p-situation__back">
+                    <button type="button" class="c-btn5" @onclick="NavigateToMyPage">マイページに戻る</button>
+                </div>
+            </div>
+        </div>
+    </main>
+</PageBaseLayout>
+
+@code {
+    string formattedTime;
+
+    protected override void OnInitializedPre()
+    {
+        // 現在の時刻を取得
+        DateTime now = DateTime.Now;
+
+        // 指定されたフォーマットで時刻を文字列に変換
+        formattedTime = now.ToString("yyyy.MM.dd HH:mm");
+    }
+
+}

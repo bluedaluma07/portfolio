@@ -1,0 +1,163 @@
+﻿@inject SessionStorageAuthenticationStateProvider AuthenticationStateProvider
+@inject BrowserHistoryService BrowserHistoryService
+@inject IJSRuntime JSRuntime
+
+<div class="p-wrap l-wrap">
+
+    <header class="p-header-lower l-heaader-lower">
+        <div class="p-header-lower__inner l-inner">
+            <div class="p-header-lower__headWrap">
+                @if (NavigateBackAction is null)
+                {
+                    <button type="button" class="p-header-lower__back" @onclick="NavigateToBack"></button>
+                }
+                else
+                {
+                    <button type="button" class="p-header-lower__back" @onclick="NavigateToBackAction"></button>
+                }
+                <h2 class="p-header-lower__head">@HeaderName</h2>
+                
+            </div>
+        </div>
+
+        @* ヘッダー用ハンバーガーメニュー *@
+        @if (!isDrawerOpen)
+        {
+            <div class="p-header-lower__ham c-ham js-ham-lower" @onclick="ClickHamburgerMenu">
+                <span></span><span></span><span></span>
+            </div>
+        }
+
+    </header>
+
+    <div class="p-header-lower__drawer p-drawer js-drawer-lower @IsDrawerActive">
+
+        @* ドロワー用のハンバーガーメニュー *@
+        @if (isDrawerOpen)
+        {
+            <div class="p-header-lower__ham c-ham js-ham-lower is-active" @onclick="ClickHamburgerMenu">
+                <span></span><span></span><span></span>
+            </div>
+        }
+
+        <div class="p-drawer__wrap">
+            <nav class="p-drawer__nav">
+                <h3 class="p-drawer__head">
+                    <span class="p-drawer__name"></span>
+                    <span class="p-drawer__num">No.@memberNo</span>
+                </h3>
+                <ul class="p-drawer__list">
+                    <li class="p-drawer__item">
+                        <a href="/">マイページ</a>
+                    </li>
+                    <li class="p-drawer__item">
+                        <a href="/coupon-ticket/sales">商品購入</a>
+                    </li>
+                    <li class="p-drawer__item">
+                        <a href="/account-settings">アカウント</a>
+                    </li>
+                    <li class="p-drawer__item">
+                        <a href="/information">おしらせ</a>
+                    </li>
+                    <li class="p-drawer__item">
+                        <a href="/congestion">混雑状況表示</a>
+                    </li>
+                    <li class="p-drawer__item">
+                        <a href="/terms-of-service">利用規約</a>
+                    </li>
+                    <li class="p-drawer__item">
+                        <a href="/privacy-policy">プライバシーポリシー</a>
+                    </li>
+                </ul>
+                <div class="p-drawer__btn">
+                    <button type="button" class="c-btn" @onclick="LogoutAsync">ログアウト</button>
+                </div>
+            </nav>
+        </div>
+    </div>
+
+    @ChildContent
+
+</div>
+
+@code {
+
+    [Parameter]
+    public string? HeaderName{ get; set; }
+
+    /// <summary>
+    /// 戻るボタンで一つ前に戻る以外の場合に指定するアクション
+    /// </summary>
+    [Parameter]
+    public Action? NavigateBackAction { get; set; }
+
+    [Parameter]
+    public RenderFragment ChildContent{ get; set; }
+
+    private string IsDrawerActive => isDrawerOpen ? "is-active" : "";
+
+    int memberNo;
+
+    bool isDrawerOpen;
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            await AuthenticationStateProvider.LoadAuthenticationStateAsync();
+            var mailAddress = AuthenticationStateProvider.GetEmail();
+            var accessToken = AuthenticationStateProvider.GetAccessToken();
+        }
+        catch(Exception e)
+        {
+            Debug.WriteLine(e.Message);
+        }
+    }
+
+    /// <summary>
+    /// 一つ前のページに戻る
+    /// </summary>
+    protected void NavigateToBack()
+    {
+        // 履歴のリストの長さをチェック
+        if (BrowserHistoryService.History.Count >= 2)
+        {
+            // 一つ前のページに戻る
+            var history = BrowserHistoryService.History[BrowserHistoryService.History.Count - 2];
+            NavigationManager.NavigateTo(history);
+        }
+    }
+
+    private void NavigateToBackAction()
+    {
+        NavigateBackAction?.Invoke();
+    }
+
+    /// <summary>
+    /// ログアウト処理
+    /// </summary>
+    /// <returns></returns>
+    private async Task LogoutAsync()
+    {
+        await AuthenticationStateProvider.UpdateLoginStatusAsync(null);
+        await JSRuntime.InvokeVoidAsync("removeBodyOverflowHidden");
+        NavigationManager.NavigateTo("/sign-in");
+    }
+
+    /// <summary>
+    /// ハンバーガークリック時の処理
+    /// </summary>
+    /// <returns></returns>
+    private async Task ClickHamburgerMenu()
+    {
+        isDrawerOpen = !isDrawerOpen;
+        if (isDrawerOpen)
+        {
+            await JSRuntime.InvokeVoidAsync("addHamburgerMenu");
+        }
+        else
+        {
+            await JSRuntime.InvokeVoidAsync("removeHamburgerMenu");
+        }
+    }
+}

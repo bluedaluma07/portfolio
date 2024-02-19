@@ -1,0 +1,32 @@
+﻿@page "/coupon-ticket/done"
+@inherits PageBase
+
+@RenderLoading()
+
+<PageBaseLayout HeaderName="回数券購入" NavigateBackAction="NavigateToMyPage">
+    <main class="p-main-lower l-main-lower">
+        <div class="p-ticket-complete l-ticket-complete">
+            <div class="p-ticket-complete__inner l-inner">
+                <h3 class="p-ticket-complete__head">購入完了</h3>
+                <p class="p-ticket-complete__text">
+                    購入処理が完了しました。<br />お買い上げありがとうございます。
+                </p>
+                @* <div class="p-tiket-complete__btn">
+                    <button type="button" class="c-btn3" @onclick="NavigateToPaymentHistory">回数券購入履歴</button>
+                </div> *@
+                <div class="p-tiket-complete__back" style="margin-top: 2rem;">
+                    <button type="button" class="c-btn5" @onclick="NavigateToMyPage">マイページに戻る</button>
+                </div>
+            </div>
+        </div>
+    </main>
+</PageBaseLayout>
+
+@code {
+
+    private void NavigateToPaymentHistory()
+    {
+        NavigationManager.NavigateTo("/coupon-ticket/payment-history");
+    }
+
+}

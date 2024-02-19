@@ -1,0 +1,26 @@
+﻿@page "/account-settings/withdraw/done"
+@inherits PageBase
+
+@RenderLoading()
+
+<PageBaseLayout HeaderName="退会" NavigateBackAction="NavigationToSignIn">
+    <div class="p-delete-complete l-delete-complete">
+        <div class="p-delete-complete__inner l-inner">
+            <h3 class="p-delete-complete__head c-head">退会完了</h3>
+            <p class="p-delete-complete__text">
+                退会処理が完了しました。<br />ご利用ありがとうございました。
+            </p>
+            <div class="p-delete-complete__btn">
+                <button type="button" class="c-btn2" @onclick="NavigationToSignIn">新規会員登録</button>
+            </div>
+        </div>
+    </div>
+</PageBaseLayout>
+
+@code {
+
+    private void NavigationToSignIn()
+    {
+        NavigationManager.NavigateTo("/sign-in");
+    }
+}

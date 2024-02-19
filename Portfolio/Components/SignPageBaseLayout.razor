@@ -1,0 +1,31 @@
+﻿<div class="p-wrap l-wrap">
+    <header class="p-header-lower l-heaader-lower">
+        <div class="p-header-lower__inner l-inner">
+            <div class="p-header-lower__headWrap">
+                @if (NavigateBackAction is not null)
+                {
+                    <button class="p-header-lower__back" @onclick="NavigateBack"></button>
+                }
+                <h2 class="p-header-lower__head">@HeaderName</h2>
+            </div>
+        </div>
+    </header>
+    @ChildContent
+</div>
+
+@code {
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    [Parameter]
+    [EditorRequired]
+    public string? HeaderName{ get; set; }
+
+    [Parameter]
+    public Action? NavigateBackAction{ get; set; }
+
+    private void NavigateBack()
+    {
+        NavigateBackAction?.Invoke();
+    }
+}

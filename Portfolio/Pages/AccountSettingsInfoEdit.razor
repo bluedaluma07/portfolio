@@ -1,0 +1,117 @@
+﻿@page "/account-settings/info/edit"
+@inherits PageBase
+@inject MemberInfoService MemberInfoService
+
+@RenderLoading()
+
+<PageBaseLayout HeaderName="会員情報確認・編集" NavigateBackAction="NavigateToBack">
+    <main class="p-main-lower l-main-lower">
+        <div class="p-account-change l-account-change">
+
+            <EditForm class="p-account-change__form p-form-lower" Model="InputModel" OnValidSubmit="NavigateToAccountSettingsInfoConfirm">
+
+                <DataAnnotationsValidator />
+
+                <div class="p-form-lower__inner l-inner">
+                    <ul class="p-form-lower__list">
+                        <li class="p-form-lower__item">
+                            <p class="p-form-lower__title">氏名</p>
+                            <div class="p-form-lower__box">
+                                <input type="text"
+                                       name="first-name"
+                                       class="p-form__input"
+                                       placeholder="山田" @bind-value="InputModel.FirstName" />
+                                
+                                <input type="text"
+                                       name="last-name"
+                                       class="p-form__input"
+                                       placeholder="太郎" @bind-value="InputModel.LastName" />
+                               
+                            </div>
+                        </li>
+                        <ValidationMessage For="() => InputModel.FirstName" />
+                        <ValidationMessage For="() => InputModel.LastName" />
+                        <li class="p-form-lower__item">
+                            <p class="p-form-lower__title">ふりがな</p>
+                            <div class="p-form-lower__box">
+                                <input type="text"
+                                       name="first-name"
+                                       class="p-form-lower__input"
+                                       placeholder="やまだ" @bind-value="InputModel.FirstNameYomi" />
+                                
+                                <input type="text"
+                                       name="last-name"
+                                       class="p-form-lower__input"
+                                       placeholder="たろう" @bind-value="InputModel.LastNameYomi" />
+                                
+                            </div>
+                        </li>
+                        <ValidationMessage For="() => InputModel.FirstNameYomi" />
+                        <ValidationMessage For="() => InputModel.LastNameYomi" />
+                        <li class="p-form-lower__item">
+                            <p class="p-form-lower__title">性別</p>
+                            <InputRadioGroup @bind-Value="@InputModel.Gender" class="p-form-lower__radioBox" Name="sample">
+                                <InputRadio class="p-form-lower__radio" Value="Enums.Gender.Male" id="radio1" name="sample" />
+                                <label for="radio1" class="p-form-lower__radioText">男性</label>
+
+                                <InputRadio class="p-form-lower__radio" Value="Enums.Gender.Female" id="radio2" name="sample" />
+                                <label for="radio2" class="p-form-lower__radioText">女性</label>
+
+                                <InputRadio class="p-form-lower__radio" Value="Enums.Gender.PreferNotToSay" id="radio3" name="sample" />
+                                <label for="radio3" class="p-form-lower__radioText">回答しない</label>
+                            </InputRadioGroup>
+                            <ValidationMessage For="() => InputModel.Gender" />
+                        </li>
+
+                        <li class="p-form-lower__item">
+                            <p class="p-form-lower__title">
+                                生年月日<span class="c-validation c-validation--any">変更不可</span>
+                            </p>
+                            <div class="p-form-lower__box">
+                                <span class="p-form-lower__unchanged">@InputModel.Birth</span>
+                            </div>
+                        </li>
+                        <li class="p-form-lower__item">
+                            <p class="p-form-lower__title">電話番号</p>
+                            <div class="p-form-lower__box">
+                                <input type="tel"
+                                       name="tel"
+                                       class="p-form-lower__input"
+                                       placeholder="09012345678"
+                                       @bind-value="InputModel.PhoneNumber" />
+                            </div>
+                        </li>
+                        <ValidationMessage For="() => InputModel.PhoneNumber" />
+                        <li class="p-form-lower__item">
+                            <button type="submit" class="p-forem-lower__btn c-btn3">確認</button>
+                        </li>
+                        <li class="p-form-lower__item">
+                            <button type="button" class="p-forem-lower__back c-btn4" @onclick="NavigateToBack">戻る</button>
+                        </li>
+                    </ul>
+                </div>
+
+            </EditForm>
+
+
+        </div>
+    </main>
+</PageBaseLayout>
+
+@code {
+    MemberInfoInputModel InputModel = new();
+
+    /// <summary>
+    ///
+    /// </summary>
+    private async Task NavigateToAccountSettingsInfoConfirm()
+    {
+        await ProtectedSessionStorage.SetAsync("MemberInfoInputModel", InputModel);
+        NavigationManager.NavigateTo("/account-settings/info/confirm");
+    }
+
+    private void NavigateToBack()
+    {
+        NavigationManager.NavigateTo("/account-settings/info");
+    }
+}

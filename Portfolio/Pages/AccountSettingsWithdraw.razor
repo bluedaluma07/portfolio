@@ -1,0 +1,41 @@
+﻿@page "/account-settings/withdraw"
+@inherits PageBase
+@inject SessionStorageAuthenticationStateProvider AuthenticationStateProvider
+
+@RenderLoading()
+
+<PageBaseLayout HeaderName="退会" NavigateBackAction="NavigateBack">
+    <div class="p-delete l-delete">
+        <div class="p-delete__inner l-inner">
+            <h3 class="p-delete__head c-head">退会手続き</h3>
+            <p class="p-delete__text">本当によろしいですか？</p>
+            <div class="p-delete__btn">
+                <button type="button" class="c-btn3 c-btn3--red2" @onclick="Withdraw">退会する</button>
+            </div>
+            <div class="p-delete__back">
+                <button type="button" class="c-btn4" @onclick="NavigateBack">戻る</button>
+            </div>
+        </div>
+    </div>
+</PageBaseLayout>
+
+@code {
+
+    /// <summary>
+    /// 退会処理
+    /// </summary>
+    /// <returns></returns>
+    private async Task Withdraw()
+    {
+        NavigationManager.NavigateTo("/account-settings/withdraw/done");
+    }
+
+    /// <summary>
+    /// 戻る
+    /// </summary>
+    private void NavigateBack()
+    {
+        NavigationManager.NavigateTo("/account-settings");
+    }
+
+}

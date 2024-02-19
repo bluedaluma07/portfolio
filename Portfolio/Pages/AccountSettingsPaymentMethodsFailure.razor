@@ -1,0 +1,22 @@
+﻿@page "/account-settings/payment-methods/failure"
+@inherits PageBase
+
+@RenderLoading()
+
+<PageBaseLayout HeaderName="支払い方法変更" NavigateBackAction="NavigateToMyPage">
+    <div class="p-credit-error l-credit-error">
+        <div class="p-credit-error__inner l-inner">
+            <h3 class="p-credit-error__head c-head">登録失敗</h3>
+            <p class="p-credit-error__text">
+                支払い方法の登録に失敗しました。<br />最初からやり直してください。
+            </p>
+            <div class="p-credit-error__btn">
+                <button type="button" class="c-btn5" @onclick="NavigateToMyPage">マイページに戻る</button>
+            </div>
+        </div>
+    </div>
+</PageBaseLayout>
+
+@code {
+
+}

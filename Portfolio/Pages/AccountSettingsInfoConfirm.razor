@@ -1,0 +1,74 @@
+﻿@page "/account-settings/info/confirm"
+@inherits PageBase
+@inject MemberInfoService MemberInfoService
+
+@RenderLoading()
+
+<PageBaseLayout HeaderName="会員情報確認・編集" NavigateBackAction="NavigateToBack">
+
+    <main class="p-main-lower l-main-lower">
+        <div class="p-account__inner l-inner">
+            <div class="p-account-comfirm l-account-comfirm p-comfirm">
+                <ul class="p-comfirm__contents">
+                    <li class="p-comfirm__content">
+                        <p class="p-comfirm__title">氏名</p>
+                        <p class="p-comfirm__input">@(InputModel.FirstName + " " + InputModel.LastName)</p>
+                    </li>
+                    <li class="p-comfirm__content">
+                        <p class="p-comfirm__title">ふりがな</p>
+                        <p class="p-comfirm__input">@(InputModel.FirstNameYomi + " " + InputModel.LastNameYomi)</p>
+                    </li>
+                    <li class="p-comfirm__content">
+                        <p class="p-comfirm__title">性別</p>
+                        <p class="p-comfirm__input">@(InputModel.GenderText)</p>
+                    </li>
+                    <li class="p-comfirm__content">
+                        <p class="p-comfirm__title">生年月日</p>
+                        <p class="p-comfirm__input">@(InputModel.Birth)</p>
+                    </li>
+                    <li class="p-comfirm__content">
+                        <p class="p-comfirm__title">電話番号</p>
+                        <p class="p-comfirm__input">@(InputModel.PhoneNumber)</p>
+                    </li>
+                </ul>
+                <div class="p-account-comfirm__btn">
+                    <button type="button" class="c-btn3 c-btn3" @onclick="NavigateToAccountSettingsInfoDone">確定</button>
+                </div>
+                <div class="p-account-comfirm__back">
+                    <button type="button" class="c-btn4" @onclick="NavigateToBack">戻る</button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+</PageBaseLayout>
+
+@code {
+
+    MemberInfoInputModel InputModel = new();
+
+    protected override async Task OnInitializedPreAsync()
+    {
+        var result = await ProtectedSessionStorage.GetAsync<MemberInfoInputModel>("MemberInfoInputModel");
+
+        if (result.Success)
+        {
+            InputModel = result.Value!;
+        }
+    }
+
+    /// <summary>
+    ///
+    /// </summary>
+    private void NavigateToAccountSettingsInfoDone()
+    {
+        MemberInfoService.ChangeMemberInfo(InputModel);
+        NavigationManager.NavigateTo("/account-settings/info/done");
+    }
+
+    private void NavigateToBack()
+    {
+        NavigationManager.NavigateTo("/account-settings/info/edit");
+    }
+
+}

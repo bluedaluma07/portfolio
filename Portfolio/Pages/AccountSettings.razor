@@ -1,0 +1,31 @@
+﻿@page "/account-settings"
+@inherits PageBase
+
+@RenderLoading()
+
+<PageBaseLayout HeaderName="アカウント設定" NavigateBackAction="NavigateToMyPage">
+    <main class="p-main-lower l-main-lower">
+        <div class="p-account l-account">
+            <div class="p-account__list">
+                <div class="p-account__link c-link">
+                    <a href="/account-settings/info">会員情報確認・編集</a>
+                </div>
+                <div class="p-account__link c-link">
+                    <a href="/account-settings/payment-methods">支払方法変更</a>
+                </div>
+                <div class="p-account__link c-link">
+                    <a href="/account-settings/withdraw">退会</a>
+                </div>
+            </div>
+            <div class="p-account__inner l-inner">
+                <div class="p-account__back">
+                    <button type="button" class="c-btn5" @onclick="NavigateToMyPage">マイページに戻る</button>
+                </div>
+            </div>
+        </div>
+    </main>
+</PageBaseLayout>
+
+@code{
+
+}
